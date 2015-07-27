@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.Observable;
@@ -16,7 +17,7 @@ import fr.lordkadoc.entities.Player;
 import fr.lordkadoc.terrain.Cellule;
 import fr.lordkadoc.terrain.Terrain;
 
-public class TerrainVue extends JPanel implements Observer, MouseListener{
+public class TerrainVue extends JPanel implements Observer, MouseListener, MouseMotionListener{
 
 	/**
 	 * 
@@ -38,6 +39,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener{
 	private void init() {
 		this.setPreferredSize(new Dimension(640,640));
 		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
 	}
 	
 	@Override
@@ -154,6 +156,25 @@ public class TerrainVue extends JPanel implements Observer, MouseListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON3){
+			double x = e.getX()-this.getWidth()/2;
+			double y = e.getY()-this.getHeight()/2;
+			x/=Cellule.CELL_SIZE;
+			y/=Cellule.CELL_SIZE;
+			x+=joueur.getCoordinates().getX();
+			y+=joueur.getCoordinates().getY();
+			joueur.setDestination(new Point2D.Double(x,y));
+		}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
