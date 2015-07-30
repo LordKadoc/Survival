@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import fr.lordkadoc.entities.Player;
 import fr.lordkadoc.terrain.Cellule;
@@ -106,6 +107,8 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 				
 				g.fillOval(cell.getX()*Cellule.CELL_SIZE+1, cell.getY()*Cellule.CELL_SIZE+1, Cellule.CELL_SIZE-2, Cellule.CELL_SIZE-2);
 			}
+			
+			
 		}
 		
 		g.setColor(Color.RED);
@@ -114,7 +117,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 		g.translate(camX, camY);
 		
 		g.setColor(Color.BLACK);
-		g.drawString(terrain.getChunkCourant(joueur).toString(), 20, 20);
+		g.drawString(terrain.getChunk(joueur.getCoordinates()).toString(), 20, 20);
 		g.drawString("joueur : " + (int)joueur.getCoordinates().getX() + "/" + (int)joueur.getCoordinates().getY(), 20, 50);
 		
 	}
@@ -138,7 +141,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON3){
+		if(SwingUtilities.isRightMouseButton(e)){
 			double x = e.getX()-this.getWidth()/2;
 			double y = e.getY()-this.getHeight()/2;
 			x/=Cellule.CELL_SIZE;
@@ -162,7 +165,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON3){
+		if(SwingUtilities.isRightMouseButton(e)){
 			double x = e.getX()-this.getWidth()/2;
 			double y = e.getY()-this.getHeight()/2;
 			x/=Cellule.CELL_SIZE;

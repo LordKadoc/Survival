@@ -5,6 +5,7 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.lordkadoc.game.GameLoop;
 import fr.lordkadoc.terrain.Cellule;
 import fr.lordkadoc.terrain.Terrain;
 
@@ -34,41 +35,46 @@ public class Player extends Entity{
 	 * @param coordinates the coordinates of the player
 	 */
 	public Player(String name, Point2D.Double coordinates){
-		this(name, coordinates, 13.37f, 100, 30);
+		this(name, coordinates, 13.37f, 100, 20);
 	}
 	
 	@Override
 	public void move(Terrain terrain) {
-		
+			
 		if(destination == null){
 			return;
 		}
-		
-		
+			
+		int loops = GameLoop.LOOPS_PER_SEC;
 		Point2D.Double nextLocation;
-		
-		Cellule cellAfterMovement = null;
+		Cellule currentCell;
+		List<Cellule> cells = new ArrayList<Cellule>();
 				
-		if(coordinates.x < destination.x + speed/100
-				&& coordinates.x > destination.x - speed/100 
-				&& coordinates.y < destination.y + speed/100 
-				&& coordinates.y > destination.y - speed/100){
+		if(coordinates.x < destination.x + speed/loops
+				&& coordinates.x > destination.x - speed/loops 
+				&& coordinates.y < destination.y + speed/loops 
+				&& coordinates.y > destination.y - speed/loops){
 			nextLocation = destination;
 			this.destination = null;
 		}else{
 			nextLocation = new Point2D.Double(coordinates.x+movement.x,coordinates.y+movement.y);	
 		}
 		
+		for(Point2D.Double point : getHitbox(nextLocation)){
+			currentCell = terrain.getCellule(point);
+			if(!cells.contains(currentCell)){
+				cells.add(currentCell);
+			}
 			
-		cellAfterMovement = terrain.getChunkCourant(this).getCellule((int)nextLocation.x, (int)nextLocation.y);
-		
-		if(cellAfterMovement.estVide()){
-			this.coordinates = nextLocation;
-		}else{
-			this.destination = null;
+			for(Cellule cellule : cells){	
+				if(!cellule.estVide()){
+					this.destination = null;
+					return;
+				}
+			}
 		}
 		
-			
+		this.coordinates = nextLocation;
 	}
 
 	@Override
@@ -76,18 +82,23 @@ public class Player extends Entity{
 		double distance = destination.distance(coordinates);
 		double distanceX = destination.x - coordinates.x;
 		double distanceY = destination.y - coordinates.y;
-		this.movement = new Point2D.Double((distanceX/distance/100*speed),(distanceY/distance/100*speed));
+		this.movement = new Point2D.Double((distanceX/distance/GameLoop.LOOPS_PER_SEC*speed),(distanceY/distance/GameLoop.LOOPS_PER_SEC*speed));
 		this.destination = new Point2D.Double(destination.x,destination.y);
 	}
 
 	@Override
-	public List<Double> getHitbox(Point2D.Double location) {
+	public List<Point2D.Double> getHitbox(Point2D.Double location) {
+		double s = Cellule.toCellCoordinates((double)size/2);
 		List<Point2D.Double> list = new ArrayList<Point2D.Double>();
-		list.add(new Point2D.Double(location.x-size/2, location.y-size/2));
-		list.add(new Point2D.Double(location.x+size/2, location.y-size/2));
-		list.add(new Point2D.Double(location.x+size/2, location.y+size/2));
-		list.add(new Point2D.Double(location.x-size/2, location.y+size/2));
+		list.add(new Point2D.Double(location.x-s, location.y-s));
+		list.add(new Point2D.Double(location.x+s, location.y-s));
+		list.add(new Point2D.Double(location.x+s, location.y+s));
+		list.add(new Point2D.Double(location.x-s, location.y+s));
 		return list;
+	}
+	
+	public boolean collision(){
+		return true;
 	}
 	
 	@Override

@@ -1,6 +1,5 @@
 package fr.lordkadoc.biome;
 
-import java.lang.reflect.GenericSignatureFormatError;
 import java.util.Random;
 
 import fr.lordkadoc.element.Element;

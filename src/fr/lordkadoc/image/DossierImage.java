@@ -1,12 +1,10 @@
 package fr.lordkadoc.image;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import fr.lordkadoc.biome.Biome;
 import fr.lordkadoc.biome.GenerateurBiome;
 import fr.lordkadoc.element.ElementID;
 

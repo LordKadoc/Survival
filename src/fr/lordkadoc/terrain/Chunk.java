@@ -62,6 +62,7 @@ public class Chunk {
 			}
 			return cellules[l][h];
 		}catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("error");
 			return null;
 		}
 	}

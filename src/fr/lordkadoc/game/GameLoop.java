@@ -7,13 +7,12 @@ public class GameLoop extends Thread {
 	
 	private Terrain terrain;
 	
-	private int delai;
+	public static final int LOOPS_PER_SEC = 100;
 	
 	private boolean stop;
 	
-	public GameLoop(Terrain terrain, int delai){
+	public GameLoop(Terrain terrain){
 		this.terrain = terrain;
-		this.delai = delai;
 		this.stop = false;
 	}
 	
@@ -25,7 +24,7 @@ public class GameLoop extends Thread {
 			}
 			terrain.notifyObservers();
 			try {
-				Thread.sleep(delai);
+				Thread.sleep(1000/LOOPS_PER_SEC);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

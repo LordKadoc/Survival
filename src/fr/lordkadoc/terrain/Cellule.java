@@ -1,6 +1,5 @@
 package fr.lordkadoc.terrain;
 
-import fr.lordkadoc.biome.Biome;
 import fr.lordkadoc.element.Element;
 
 public class Cellule {
@@ -54,7 +53,11 @@ public class Cellule {
 
 	@Override
 	public String toString(){
-		return estVide() ? " " : "X";
+		return x + " / " + y;
+	}
+	
+	public static double toCellCoordinates(double value){
+		return value/CELL_SIZE;
 	}
 	
 }
