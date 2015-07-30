@@ -1,6 +1,7 @@
 package fr.lordkadoc.entities;
 
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 public abstract class Entity implements Movable, Killable{
 	
@@ -9,6 +10,8 @@ public abstract class Entity implements Movable, Killable{
 	protected Point2D.Double movement;
 	
 	protected Point2D.Double destination;
+	
+	protected BufferedImage image;
 	
 	protected float speed;
 	
@@ -26,9 +29,10 @@ public abstract class Entity implements Movable, Killable{
 	 * @param maxHealth the maximum health the entity can have
 	 * @param size
 	 */
-	public Entity(Point2D.Double coordinates, float speed, int maxHealth, int size){
+	public Entity(Point2D.Double coordinates, BufferedImage image, float speed, int maxHealth, int size){
 		this.coordinates = coordinates;
 		this.movement = new Point2D.Double(0,0);
+		this.image = image;
 		this.speed = speed;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
@@ -47,6 +51,14 @@ public abstract class Entity implements Movable, Killable{
 	
 	public Point2D.Double getDestination(){
 		return destination;
+	}
+	
+	public BufferedImage getImage(){
+		return image;
+	}
+	
+	public void setImage(BufferedImage image){
+		this.image = image;
 	}
 	
 	public float getSpeed(){

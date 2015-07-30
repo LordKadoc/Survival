@@ -24,7 +24,7 @@ public class Player extends Entity{
 	 * @param size the size of the player
 	 */
 	public Player(String name, Point2D.Double coordinates, float speed, int maxHealth, int size){
-		super(coordinates,speed,maxHealth,size);
+		super(coordinates,null,speed,maxHealth,size);
 		this.name = name;
 	}
 	
@@ -47,8 +47,6 @@ public class Player extends Entity{
 			
 		int loops = GameLoop.LOOPS_PER_SEC;
 		Point2D.Double nextLocation;
-		Cellule currentCell;
-		List<Cellule> cells = new ArrayList<Cellule>();
 				
 		if(coordinates.x < destination.x + speed/loops
 				&& coordinates.x > destination.x - speed/loops 
@@ -56,27 +54,43 @@ public class Player extends Entity{
 				&& coordinates.y > destination.y - speed/loops){
 			nextLocation = destination;
 			this.destination = null;
+			return;
 		}else{
 			nextLocation = new Point2D.Double(coordinates.x+movement.x,coordinates.y+movement.y);	
 		}
 		
-		for(Point2D.Double point : getHitbox(nextLocation)){
-			currentCell = terrain.getCellule(point);
-			if(!cells.contains(currentCell)){
-				cells.add(currentCell);
-			}
-			
-			for(Cellule cellule : cells){	
-				if(!cellule.estVide()){
-					this.destination = null;
-					return;
-				}
-			}
+		if(testHitbox(nextLocation, terrain)){
+			this.coordinates = nextLocation;
+			return;
 		}
 		
-		this.coordinates = nextLocation;
+		nextLocation = new Point2D.Double(coordinates.x,coordinates.y+speed/loops);
+		
+		if(testHitbox(nextLocation, terrain)){
+			this.coordinates = nextLocation;
+			setDestination(destination);
+			return;
+		}
+		
+		nextLocation = new Point2D.Double(coordinates.x+speed/loops,coordinates.y);
+		
+		if(testHitbox(nextLocation, terrain)){
+			this.coordinates = nextLocation;
+			setDestination(destination);
+			return;
+		}
 	}
 
+	private boolean testHitbox(Double nextLocation, Terrain terrain) {
+		for(Point2D.Double point : getHitbox(nextLocation)){
+			if(!terrain.getCellule(point).estVide()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 	@Override
 	public void setDestination(Double destination) {
 		double distance = destination.distance(coordinates);
