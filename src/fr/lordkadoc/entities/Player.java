@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.lordkadoc.game.GameLoop;
+import fr.lordkadoc.image.DossierImage;
 import fr.lordkadoc.terrain.Cellule;
 import fr.lordkadoc.terrain.Terrain;
 
@@ -24,7 +25,7 @@ public class Player extends Entity{
 	 * @param size the size of the player
 	 */
 	public Player(String name, Point2D.Double coordinates, float speed, int maxHealth, int size){
-		super(coordinates,null,speed,maxHealth,size);
+		super(coordinates,DossierImage.PLAYER_1,speed,maxHealth,size);
 		this.name = name;
 	}
 	

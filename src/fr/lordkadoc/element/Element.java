@@ -1,15 +1,17 @@
 package fr.lordkadoc.element;
 
+import fr.lordkadoc.image.ImageID;
+
 public class Element {
 	
-	private final ElementID id;
+	private ImageID image;
 	
-	public Element(ElementID id){
-		this.id = id;
+	public Element(ImageID image){
+		this.image = image;
 	}
 	
-	public ElementID getId(){
-		return id;
+	public ImageID getImageID(){
+		return image;
 	}
 
 }

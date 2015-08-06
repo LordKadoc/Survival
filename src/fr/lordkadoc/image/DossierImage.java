@@ -1,46 +1,67 @@
 package fr.lordkadoc.image;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
-
-import fr.lordkadoc.biome.GenerateurBiome;
-import fr.lordkadoc.element.ElementID;
 
 public class DossierImage {
 	
 		
-		public static ArrayList<BufferedImage> imagesBiomeSol=new ArrayList<BufferedImage>();
-		public static ArrayList<BufferedImage> imagesObstacle=new ArrayList<BufferedImage>();
-		public static BufferedImage imageJoueur;
-
+		public static Map<ImageID,BufferedImage> images = new HashMap<ImageID,BufferedImage>();
 		
+		public static ImageID PLAYER_1 = new ImageID("player",1);
+		
+		public static ImageID TREE_1 = new ImageID("tree",1);
+		
+		public static ImageID ROCK_1 = new ImageID("rock",1);
+		
+		public static ImageID CACTUS_1 = new ImageID("cactus",1);
+		
+		public static ImageID DESERT_1 = new ImageID("desert",1);
+		
+		public static ImageID PLAIN_1 = new ImageID("grass",1);
+		
+		public static ImageID PLAIN_2 = new ImageID("grass",2);
+		
+		public static ImageID LAKE_1 = new ImageID("water",1);
+		
+		public static ImageID SNOW_1 = new ImageID("snow",1);
+		
+		public static ImageID MOUNTAIN_1 = new ImageID("mountain",1);
+			
 		static {
 			try {
 				
-				imageJoueur = ImageIO.read(ResourceLoader.load("joueur.png"));
+				File folder = new File("src/images");
+				String[] s;
+				String name;
+				int idx;
 				
-				for(int i=0;i<GenerateurBiome.length();i++){
-					try{
-						imagesBiomeSol.add(ImageIO.read(ResourceLoader.load("sol/Biome"+i+".png")));
-					}catch(Exception e){
-						System.out.println("Biome"+i+"  bug");
+				for(File f : folder.listFiles(new FileFilter() {
+					
+					@Override
+					public boolean accept(File pathname) {	
+						return pathname.getName().endsWith(".png") || pathname.getName().endsWith(".jpg");
 					}
-				}
-
-				for(int i=0;i<ElementID.length();i++){
-					try{
-						imagesObstacle.add(ImageIO.read(ResourceLoader.load("obstacle/Element"+i+".png")));
-					}catch(Exception e){
-						System.out.println("Element"+i+"  bug");
-					}
+				})){
+					
+					name = f.getName();
+					idx = name.lastIndexOf('.');
+					name = name.substring(0,idx);
+					s = name.split("_");
+					images.put(new ImageID(s[0],Integer.parseInt(s[1])), ImageIO.read(f));
+					
 				}
 				
 			}catch(Exception e){
-				System.out.println("pb image");
+				e.printStackTrace();
 			}
+			
 		}	
-
+		
 		
 }

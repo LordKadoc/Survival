@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import fr.lordkadoc.entities.Player;
+import fr.lordkadoc.image.DossierImage;
 import fr.lordkadoc.terrain.Cellule;
 import fr.lordkadoc.terrain.Terrain;
 
@@ -60,60 +61,16 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 		
 		for(Cellule cell : cells){
 			
-			
-			switch(cell.getSol_id()){
-			
-			case 0:
-				g.setColor(new Color(0,50,200));
-				break;
-			case 1:
-				g.setColor(new Color(0,200,50));
-				break;
-			case 2:
-				g.setColor(new Color(239,221,111));
-				break;
-			case 3:
-				g.setColor(Color.WHITE);
-				break;		
-			case 4:
-				g.setColor(new Color(88, 42, 0));
-				break;
-			case 5:
-				g.setColor(new Color(0,100,50));
-				break;
-			default:
-				g.setColor(Color.GRAY);
-				break;
-			}
-			
-			g.fillRect(cell.getX()*Cellule.CELL_SIZE, cell.getY()*Cellule.CELL_SIZE, Cellule.CELL_SIZE, Cellule.CELL_SIZE);
+			g.drawImage(DossierImage.images.get(cell.getGround().getImage()), cell.getX()*Cellule.CELL_SIZE, cell.getY()*Cellule.CELL_SIZE, this);
 			
 			if(!cell.estVide()){
-				
-				switch(cell.getElement().getId()){
-				case TREE_ID:	
-					g.setColor(Color.GREEN);
-					break;
-				case CACTUS_ID:	
-					g.setColor(Color.green);
-					break;
-
-				case ROCK_ID:	
-					g.setColor(Color.GRAY);
-					break;
-				default:
-					break;	
-				}
-				
-				g.fillOval(cell.getX()*Cellule.CELL_SIZE+1, cell.getY()*Cellule.CELL_SIZE+1, Cellule.CELL_SIZE-2, Cellule.CELL_SIZE-2);
+				g.drawImage(DossierImage.images.get(cell.getElement().getImageID()), cell.getX()*Cellule.CELL_SIZE, cell.getY()*Cellule.CELL_SIZE, this);
 			}
 			
 			
 		}
 		
-		g.setColor(Color.RED);
-		g.fillOval((int)(joueur.getCoordinates().getX()*Cellule.CELL_SIZE)-joueur.getSize()/2,(int)(joueur.getCoordinates().getY()*Cellule.CELL_SIZE)-joueur.getSize()/2,joueur.getSize(),joueur.getSize());
-		
+		g.drawImage(DossierImage.images.get(joueur.getImage()), (int)(joueur.getCoordinates().getX()*Cellule.CELL_SIZE)-joueur.getSize()/2,(int)(joueur.getCoordinates().getY()*Cellule.CELL_SIZE)-joueur.getSize()/2, this);
 		g.translate(camX, camY);
 		
 		g.setColor(Color.BLACK);

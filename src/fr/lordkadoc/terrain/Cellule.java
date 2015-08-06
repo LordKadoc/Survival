@@ -1,6 +1,8 @@
 package fr.lordkadoc.terrain;
 
+import fr.lordkadoc.cell.Ground;
 import fr.lordkadoc.element.Element;
+import fr.lordkadoc.image.DossierImage;
 
 public class Cellule {
 	
@@ -8,15 +10,15 @@ public class Cellule {
 	
 	private final int x, y;
 	
-	private int sol_id;
-	
 	private Element element;
+	
+	private Ground ground;
 	
 	public Cellule(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.element = null;
-		this.sol_id = -1;
+		this.ground = new Ground(DossierImage.PLAIN_1);
 	}
 
 	public int getX() {
@@ -43,14 +45,14 @@ public class Cellule {
 		return element == null;
 	}
 	
-	public int getSol_id() {
-		return sol_id;
+	public Ground getGround(){
+		return ground;
 	}
 
-	public void setSol_id(int sol_id) {
-		this.sol_id = sol_id;
+	public void setGround(Ground ground) {
+		this.ground = ground;
 	}
-
+	
 	@Override
 	public String toString(){
 		return x + " / " + y;
@@ -59,5 +61,5 @@ public class Cellule {
 	public static double toCellCoordinates(double value){
 		return value/CELL_SIZE;
 	}
-	
+
 }

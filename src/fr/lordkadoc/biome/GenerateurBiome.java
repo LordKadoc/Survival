@@ -2,6 +2,8 @@ package fr.lordkadoc.biome;
 
 import java.util.Random;
 
+import fr.lordkadoc.image.DossierImage;
+import fr.lordkadoc.image.ImageID;
 import fr.lordkadoc.terrain.Chunk;
 
 public class GenerateurBiome {
@@ -12,11 +14,11 @@ public class GenerateurBiome {
 	
 	static{
 		
-		biomes[0] = new Plaine(seed);
-		biomes[1] = new Desert(seed);
-		biomes[2] = new Neige(seed);
-		biomes[3] = new Montagne(seed);
-		biomes[4] = new Foret(seed);
+		biomes[0] = new Plaine(seed,DossierImage.PLAIN_1);
+		biomes[1] = new Desert(seed,DossierImage.DESERT_1);
+		biomes[2] = new Neige(seed,DossierImage.SNOW_1);
+		biomes[3] = new Montagne(seed,DossierImage.MOUNTAIN_1);
+		biomes[4] = new Foret(seed,DossierImage.PLAIN_2);
 		
 	}
 	
@@ -24,8 +26,8 @@ public class GenerateurBiome {
 		return biomes[i];
 	}
 	
-	public static int getSol(int i){
-		return i+1;
+	public static ImageID getImageGround(int i){
+		return biomes[i].imageGround;
 	}
 	
 	public static int length(){
@@ -34,7 +36,7 @@ public class GenerateurBiome {
 
 	public static void genererChunk(Chunk chunk) {
 		int biome = new Random(seed + chunk.getX() * 1000 + chunk.getY() * 1000000).nextInt(length());
-		getBiome(biome).generer(chunk);
+		getBiome(biome).generate(chunk);
 		
 	}
 
