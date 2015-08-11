@@ -13,6 +13,10 @@ import fr.lordkadoc.terrain.Terrain;
 
 public class Player extends Entity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1781970707587357564L;
 	private final String name;
 	
 	/**

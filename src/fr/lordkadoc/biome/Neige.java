@@ -8,6 +8,12 @@ import fr.lordkadoc.terrain.Chunk;
 
 public class Neige extends Biome{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3435811550205016059L;
+
+
 	public Neige(long seed,ImageID imageGround) {
 		super(seed,imageGround);
 	}

@@ -7,6 +7,11 @@ import fr.lordkadoc.terrain.Chunk;
 
 public class Foret extends Biome{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4893503139781143580L;
+
 	Foret(long seed,ImageID imageGround) {
 		super(seed,imageGround);
 	}

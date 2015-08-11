@@ -1,5 +1,6 @@
 package fr.lordkadoc.biome;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,8 +11,13 @@ import fr.lordkadoc.terrain.Cellule;
 import fr.lordkadoc.terrain.Chunk;
 import fr.lordkadoc.utilities.Node;
 
-public abstract class Biome {
+public abstract class Biome implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8966100802897928617L;
+
 	protected Random random;
 	
 	protected final long seed;

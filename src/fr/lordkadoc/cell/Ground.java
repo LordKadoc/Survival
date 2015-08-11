@@ -1,10 +1,17 @@
 package fr.lordkadoc.cell;
 
+import java.io.Serializable;
+
 import fr.lordkadoc.image.DossierImage;
 import fr.lordkadoc.image.ImageID;
 
-public class Ground {
+public class Ground implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 675050492534472853L;
+
 	private ImageID image;
 	
 	private boolean water;

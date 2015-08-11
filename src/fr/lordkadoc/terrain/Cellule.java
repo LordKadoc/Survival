@@ -1,11 +1,18 @@
 package fr.lordkadoc.terrain;
 
+import java.io.Serializable;
+
 import fr.lordkadoc.cell.Ground;
 import fr.lordkadoc.element.Element;
 import fr.lordkadoc.image.DossierImage;
 
-public class Cellule {
+public class Cellule implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5578233312436684873L;
+
 	public final static int CELL_SIZE = 32;
 	
 	private final int x, y;

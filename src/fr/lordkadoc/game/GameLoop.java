@@ -1,10 +1,17 @@
 package fr.lordkadoc.game;
 
+import java.io.Serializable;
+
 import fr.lordkadoc.entities.Player;
 import fr.lordkadoc.terrain.Terrain;
 
-public class GameLoop extends Thread {
+public class GameLoop extends Thread implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8642094793566376169L;
+
 	private Terrain terrain;
 	
 	public static final int LOOPS_PER_SEC = 100;
@@ -26,7 +33,6 @@ public class GameLoop extends Thread {
 			try {
 				Thread.sleep(1000/LOOPS_PER_SEC);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

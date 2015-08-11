@@ -6,18 +6,15 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import fr.lordkadoc.entities.Player;
 import fr.lordkadoc.image.DossierImage;
+import fr.lordkadoc.server.PlayerUpdate;
 import fr.lordkadoc.terrain.Cellule;
-import fr.lordkadoc.terrain.Terrain;
 
 public class TerrainVue extends JPanel implements Observer, MouseListener, MouseMotionListener{
 
@@ -25,21 +22,15 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 	 * 
 	 */
 	private static final long serialVersionUID = 3282218454170869694L;
-		
-	private Terrain terrain;
 	
-	private Player joueur;
-	
-		
-	public TerrainVue(Terrain terrain, Player joueur){
-		terrain.addObserver(this);
-		this.terrain = terrain;
-		this.joueur = joueur;
+	private PlayerUpdate update;
+				
+	public TerrainVue(){
 		this.init();
 	}
 
 	private void init() {
-		this.setPreferredSize(new Dimension(640,640));
+		this.setPreferredSize(new Dimension(600,600));
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 	}
@@ -47,40 +38,36 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 	@Override
 	public void paintComponent(Graphics g){
 		
-		int camX, camY;
-		
+		if(update == null){
+			return;
+		}
+			
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		List<Cellule> cells = terrain.getChampVision(joueur, this.getWidth(), this.getHeight());
-		
-		camX = (int)(joueur.getCoordinates().getX()*Cellule.CELL_SIZE-this.getWidth()/2);
-		camY = (int)(joueur.getCoordinates().getY()*Cellule.CELL_SIZE-this.getHeight()/2);
+		int camX = (int)(update.getPlayer().getCoordinates().getX()*Cellule.CELL_SIZE-this.getWidth()/2);
+		int camY = (int)(update.getPlayer().getCoordinates().getY()*Cellule.CELL_SIZE-this.getHeight()/2);
 		
 		g.translate(-camX, -camY);
 		
-		for(Cellule cell : cells){
-			
-			g.drawImage(DossierImage.images.get(cell.getGround().getImage()), cell.getX()*Cellule.CELL_SIZE, cell.getY()*Cellule.CELL_SIZE, this);
-			
+		for(Cellule cell : update.getVisibleCells()){		
+			g.drawImage(DossierImage.images.get(cell.getGround().getImage()), cell.getX()*Cellule.CELL_SIZE, cell.getY()*Cellule.CELL_SIZE, this);	
 			if(!cell.estVide()){
 				g.drawImage(DossierImage.images.get(cell.getElement().getImageID()), cell.getX()*Cellule.CELL_SIZE, cell.getY()*Cellule.CELL_SIZE, this);
-			}
-			
-			
+			}		
 		}
 		
-		g.drawImage(DossierImage.images.get(joueur.getImage()), (int)(joueur.getCoordinates().getX()*Cellule.CELL_SIZE)-joueur.getSize()/2,(int)(joueur.getCoordinates().getY()*Cellule.CELL_SIZE)-joueur.getSize()/2, this);
-		g.translate(camX, camY);
+		for(Player player : update.getVisiblePlayers()){
+			g.drawImage(DossierImage.images.get(player.getImage()), (int)(player.getCoordinates().getX()*Cellule.CELL_SIZE)-player.getSize()/2,(int)(player.getCoordinates().getY()*Cellule.CELL_SIZE)-player.getSize()/2, this);
+		}
 		
-		g.setColor(Color.BLACK);
-		g.drawString(terrain.getChunk(joueur.getCoordinates()).toString(), 20, 20);
-		g.drawString("joueur : " + (int)joueur.getCoordinates().getX() + "/" + (int)joueur.getCoordinates().getY(), 20, 50);
+		g.translate(camX, camY);
 		
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		this.update = (PlayerUpdate)arg;
 		this.repaint();
 	}
 
@@ -98,7 +85,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(SwingUtilities.isRightMouseButton(e)){
+		/*if(SwingUtilities.isRightMouseButton(e)){
 			double x = e.getX()-this.getWidth()/2;
 			double y = e.getY()-this.getHeight()/2;
 			x/=Cellule.CELL_SIZE;
@@ -106,7 +93,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 			x+=joueur.getCoordinates().getX();
 			y+=joueur.getCoordinates().getY();
 			joueur.setDestination(new Point2D.Double(x,y));
-		}
+		}*/
 	}
 
 	@Override
@@ -122,7 +109,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(SwingUtilities.isRightMouseButton(e)){
+		/*if(SwingUtilities.isRightMouseButton(e)){
 			double x = e.getX()-this.getWidth()/2;
 			double y = e.getY()-this.getHeight()/2;
 			x/=Cellule.CELL_SIZE;
@@ -130,13 +117,12 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 			x+=joueur.getCoordinates().getX();
 			y+=joueur.getCoordinates().getY();
 			joueur.setDestination(new Point2D.Double(x,y));
-		}
+		}*/
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 }
