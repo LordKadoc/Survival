@@ -18,6 +18,8 @@ public class Client extends Observable{
 	public void sendMessage(Object message){
 		try {
 			clientSocket.getOos().writeObject(message);
+			clientSocket.getOos().flush();
+			clientSocket.getOos().reset();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +62,7 @@ public class Client extends Observable{
 	
 	public void onSocketMessageReception(SocketMessage message){
 		if(message.getHeader().equals("Connection")){
-			Global.launcher.showGame();
+			Global.launcher.showGame(this);
 			Global.launcher.revalidate();
 			Global.launcher.pack();
 			Global.launcher.setLocationRelativeTo(null);

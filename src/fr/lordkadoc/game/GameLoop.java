@@ -14,7 +14,7 @@ public class GameLoop extends Thread implements Serializable{
 
 	private Terrain terrain;
 	
-	public static final int LOOPS_PER_SEC = 100;
+	public static final int LOOPS_PER_SEC = 25;
 	
 	private boolean stop;
 	
@@ -26,10 +26,12 @@ public class GameLoop extends Thread implements Serializable{
 	public void run(){
 			
 		while(!stop){
+			//long time = System.currentTimeMillis();
 			for(Player j : terrain.getJoueurs()){
 				j.move(terrain);
 			}
 			terrain.notifyObservers();
+			//System.out.println("loop time : " + (System.currentTimeMillis()-time));
 			try {
 				Thread.sleep(1000/LOOPS_PER_SEC);
 			} catch (InterruptedException e) {

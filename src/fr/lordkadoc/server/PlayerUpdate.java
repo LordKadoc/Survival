@@ -25,13 +25,13 @@ public class PlayerUpdate implements Serializable{
 	
 	private List<Cellule> visibleCells;
 	
-	private final Player player;
+	private Player player;
 	
-	private final int vueRadius;
+	private int vueRadius;
 	
 	public PlayerUpdate(Terrain terrain, Player player, int vueRadius){
 		
-		this.player = player;
+		this.player = player;	
 		this.vueRadius = vueRadius;
 		this.visiblePlayers = new ArrayList<Player>();
 		this.visibleEntities = new ArrayList<Entity>();

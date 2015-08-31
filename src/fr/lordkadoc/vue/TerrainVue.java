@@ -6,14 +6,18 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import fr.lordkadoc.entities.Player;
 import fr.lordkadoc.image.DossierImage;
+import fr.lordkadoc.server.Client;
 import fr.lordkadoc.server.PlayerUpdate;
+import fr.lordkadoc.server.SocketMessage;
 import fr.lordkadoc.terrain.Cellule;
 
 public class TerrainVue extends JPanel implements Observer, MouseListener, MouseMotionListener{
@@ -24,15 +28,24 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 	private static final long serialVersionUID = 3282218454170869694L;
 	
 	private PlayerUpdate update;
+	
+	private Client client;
 				
-	public TerrainVue(){
-		this.init();
+	public TerrainVue(Client client){
+		this.client = client;
+		this.initPanel();
+		this.initAttributes();
 	}
 
-	private void init() {
+	private void initPanel() {
 		this.setPreferredSize(new Dimension(600,600));
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+	}
+	
+	
+	private void initAttributes(){
+		this.update = null;
 	}
 	
 	@Override
@@ -41,7 +54,7 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 		if(update == null){
 			return;
 		}
-			
+				
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
@@ -62,6 +75,9 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 		}
 		
 		g.translate(camX, camY);
+		
+		g.setColor(Color.WHITE);
+		g.drawString(update.getPlayer().getName(), 50, 50);
 		
 	}
 
@@ -85,15 +101,15 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		/*if(SwingUtilities.isRightMouseButton(e)){
+		if(SwingUtilities.isRightMouseButton(e)){
 			double x = e.getX()-this.getWidth()/2;
 			double y = e.getY()-this.getHeight()/2;
 			x/=Cellule.CELL_SIZE;
 			y/=Cellule.CELL_SIZE;
-			x+=joueur.getCoordinates().getX();
-			y+=joueur.getCoordinates().getY();
-			joueur.setDestination(new Point2D.Double(x,y));
-		}*/
+			x+=update.getPlayer().getCoordinates().getX();
+			y+=update.getPlayer().getCoordinates().getY();
+			client.sendMessage(new SocketMessage("destination",new Point2D.Double(x, y)));
+		}
 	}
 
 	@Override
@@ -109,15 +125,15 @@ public class TerrainVue extends JPanel implements Observer, MouseListener, Mouse
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		/*if(SwingUtilities.isRightMouseButton(e)){
+		if(SwingUtilities.isRightMouseButton(e)){
 			double x = e.getX()-this.getWidth()/2;
 			double y = e.getY()-this.getHeight()/2;
 			x/=Cellule.CELL_SIZE;
 			y/=Cellule.CELL_SIZE;
-			x+=joueur.getCoordinates().getX();
-			y+=joueur.getCoordinates().getY();
-			joueur.setDestination(new Point2D.Double(x,y));
-		}*/
+			x+=update.getPlayer().getCoordinates().getX();
+			y+=update.getPlayer().getCoordinates().getY();
+			client.sendMessage(new SocketMessage("destination",new Point2D.Double(x, y)));
+		}
 	}
 
 	@Override

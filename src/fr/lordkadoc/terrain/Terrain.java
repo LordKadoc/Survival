@@ -41,7 +41,7 @@ public class Terrain extends Observable implements Serializable{
 	}
 	
 	public Player addPlayer(){
-		Player player = new Player("Player"+(int)(Math.random()*99999),new Point2D.Double(95+(int)(Math.random()*10),95+(int)(Math.random()*10)));
+		Player player = new Player("Player"+(int)(Math.random()*99999),new Point2D.Double(80+(int)(Math.random()*4),80+(int)(Math.random()*4)));
 		this.players.add(player);
 		return player;
 	}

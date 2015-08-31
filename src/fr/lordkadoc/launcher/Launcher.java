@@ -2,6 +2,7 @@ package fr.lordkadoc.launcher;
 
 import javax.swing.JFrame;
 
+import fr.lordkadoc.server.Client;
 import fr.lordkadoc.vue.TerrainVue;
 
 public class Launcher extends JFrame {
@@ -17,7 +18,7 @@ public class Launcher extends JFrame {
 	
 	public Launcher(){
 		this.setTitle("Launcher for survival game");
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		this.connectionPanel = new ConnectionPanel();
@@ -30,8 +31,8 @@ public class Launcher extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 	
-	public void showGame(){
-		this.terrainVue = new TerrainVue();
+	public void showGame(Client client){
+		this.terrainVue = new TerrainVue(client);
 		this.setContentPane(terrainVue);
 	}
 	

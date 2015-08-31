@@ -1,11 +1,16 @@
 package fr.lordkadoc.server;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import fr.lordkadoc.entities.Player;
 import fr.lordkadoc.terrain.Terrain;
@@ -15,6 +20,8 @@ public class Server implements Observer{
 	private int maxPlayers;
 
 	private ServerSocket socket;
+	
+	private ExecutorService executor;
 	
 	private Map<ClientSocket,Player> players;
 	
@@ -26,7 +33,8 @@ public class Server implements Observer{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.maxPlayers = 20;
+		this.maxPlayers = 5;
+		this.executor = Executors.newFixedThreadPool(maxPlayers);
 		this.players = new HashMap<ClientSocket,Player>();
 		this.acceptConnections();
 		this.createGame();
@@ -55,11 +63,23 @@ public class Server implements Observer{
 	}
 	
 	public void sendMessage(ClientSocket clientSocket, Object message){
-		try {
-			clientSocket.getOos().writeObject(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					clientSocket.getOos().writeObject(message);
+					clientSocket.getOos().flush();
+					clientSocket.getOos().reset();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		
+		executor.submit(r);
+		
 	}
 	
 	public void broadcastMessage(Object message){
@@ -76,6 +96,8 @@ public class Server implements Observer{
 		if(message.getHeader().equals("Connection")){
 			players.put(clientSocket, terrain.addPlayer());
 			sendMessage(clientSocket, new SocketMessage("Connection",null));
+		}else if(message.getHeader().equals("destination")){
+			players.get(clientSocket).setDestination((Point2D.Double)message.getContent());
 		}
 	}
 	
@@ -86,8 +108,11 @@ public class Server implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		for(ClientSocket clientSocket : players.keySet()){
-			sendMessage(clientSocket, new SocketMessage(new PlayerUpdate(terrain, players.get(clientSocket), 320)));
+		List<ClientSocket> tmp = new ArrayList<ClientSocket>();
+		tmp.addAll(players.keySet());
+		for(ClientSocket clientSocket : tmp){
+			PlayerUpdate upd = new PlayerUpdate(terrain, players.get(clientSocket), 320);
+			sendMessage(clientSocket, new SocketMessage(upd));
 		}
 	}
 	
