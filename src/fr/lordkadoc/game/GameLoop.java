@@ -7,11 +7,6 @@ import fr.lordkadoc.terrain.Terrain;
 
 public class GameLoop extends Thread implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8642094793566376169L;
-
 	private Terrain terrain;
 	
 	public static final int LOOPS_PER_SEC = 25;

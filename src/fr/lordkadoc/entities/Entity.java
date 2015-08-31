@@ -7,11 +7,6 @@ import fr.lordkadoc.image.ImageID;
 
 public abstract class Entity implements Movable, Killable, Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -951447354970584771L;
-
 	protected Point2D.Double coordinates;
 	
 	protected Point2D.Double movement;

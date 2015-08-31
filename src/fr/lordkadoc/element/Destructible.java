@@ -7,11 +7,6 @@ import fr.lordkadoc.image.ImageID;
 
 public abstract class Destructible extends Element {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4740658131544069096L;
-
 	private final int maxHealth;
 	
 	private final int maxDrops;

@@ -4,11 +4,6 @@ import java.io.Serializable;
 
 public class ImageID implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1898070353179253818L;
-
 	private String type;
 	
 	private int id;

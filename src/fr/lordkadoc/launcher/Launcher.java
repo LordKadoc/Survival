@@ -39,5 +39,5 @@ public class Launcher extends JFrame {
 	public TerrainVue getTerrainVue(){
 		return terrainVue;
 	}
-
+	
 }

@@ -13,11 +13,6 @@ import fr.lordkadoc.utilities.Node;
 
 public abstract class Biome implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8966100802897928617L;
-
 	protected Random random;
 	
 	protected final long seed;

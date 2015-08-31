@@ -7,11 +7,6 @@ import fr.lordkadoc.terrain.Chunk;
 
 public class Desert extends Biome{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3143736293566271529L;
-
 	Desert(long seed,ImageID imageGround) {
 		super(seed,imageGround,false);
 	}

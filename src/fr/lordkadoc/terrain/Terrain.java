@@ -14,11 +14,6 @@ import fr.lordkadoc.game.GameLoop;
 
 public class Terrain extends Observable implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2798003023138992621L;
-
 	private Map<Point,Chunk> chunks;
 	
 	private GameLoop gameLoop;

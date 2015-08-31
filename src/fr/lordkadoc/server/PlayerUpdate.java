@@ -14,11 +14,6 @@ import fr.lordkadoc.terrain.Terrain;
 
 public class PlayerUpdate implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6469106339186309258L;
-
 	private List<Player> visiblePlayers;
 	
 	private List<Entity> visibleEntities;

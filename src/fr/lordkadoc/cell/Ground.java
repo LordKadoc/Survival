@@ -7,11 +7,6 @@ import fr.lordkadoc.image.ImageID;
 
 public class Ground implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 675050492534472853L;
-
 	private ImageID image;
 	
 	private boolean water;

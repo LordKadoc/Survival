@@ -7,11 +7,6 @@ import fr.lordkadoc.terrain.Chunk;
 
 public class Montagne extends Biome{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8340739111611374134L;
-
 	Montagne(long seed,ImageID imageGround) {
 		super(seed,imageGround);
 	}

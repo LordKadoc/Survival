@@ -5,11 +5,6 @@ import java.io.Serializable;
 
 public class Chunk implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -860421187764830619L;
-
 	public final static int CHUNK_SIZE = 128;
 	
 	private final int x, y;

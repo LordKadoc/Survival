@@ -4,11 +4,6 @@ import java.io.Serializable;
 
 public class SocketMessage implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2740101185065086667L;
-
 	private final String header;
 	
 	private final Object content;

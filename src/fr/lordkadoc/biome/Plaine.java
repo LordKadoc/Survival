@@ -8,11 +8,6 @@ import fr.lordkadoc.terrain.Chunk;
 
 public class Plaine extends Biome{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5031587146361797574L;
-
 	public Plaine(long seed,ImageID imageGround) {
 		super(seed,imageGround);
 	}
